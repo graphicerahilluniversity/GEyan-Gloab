@@ -38,7 +38,7 @@ th{
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Question</title>
+  <title>All Feedback</title>
    
   <!-- Bootstrap core CSS -->
   <link href= "{% static "ComplaintMS/extra/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
@@ -61,11 +61,10 @@ th{
               <a href='/dashboard/' class="list-group-item list-group-item-action">Profile</a>
               <a href='/password/' class="list-group-item list-group-item-action">Password Reset</a>
 
-              <a href="/complaints/" class="list-group-item list-group-item-action">Ask Question</a>
-              <a href="/list/" class="list-group-item list-group-item-action">UnSolved Question </a>
-              <a href="/slist/" class="list-group-item list-group-item-action">Solved Question </a>
-          <a href="/solved/" class="list-group-item list-group-item-action">Certificate</a>
-          {% endif %}
+              <a href="/complaints/" class="list-group-item list-group-item-action">Add Feedback</a>
+              <a href="/list/" class="list-group-item list-group-item-action">UnSolved Feedback </a>
+              <a href="/slist/" class="list-group-item list-group-item-action">Solved Feedback </a>
+              {% endif %}
               
 
     
@@ -93,7 +92,7 @@ th{
 </ul>
       <div class="container-fluid">
       <div class="card-body bg-light">
-        <h1 class="mt-4 text-dark"><b>UnSolved Questions</b></h1>
+        <h1 class="mt-4 text-dark"><b>UnSolved Feedbacks</b></h1>
         <br>
     
     <div class="table-responsive">
@@ -109,7 +108,7 @@ th{
       </th>
 	  <th class="th-sm  text-dark">Subject
 
-      <th class="th-sm  text-dark">Question Type
+      <th class="th-sm  text-dark">Feedback Type
 
       </th>
       <th class="th-sm-12  text-dark">Issued date

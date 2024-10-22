@@ -34,11 +34,11 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Complaint',
+            name='complaint',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Subject', models.CharField(max_length=200, null=True)),
-                ('Type_of_complaint', models.CharField(choices=[('Question 1', 'Question 1'), ('Question 0', 'Question 0'), ('Question 2', 'Question 2'), ('Question 3', 'Question 3'), ('Other', 'Other')], max_length=200, null=True)),
+                ('Type_of_complaint', models.CharField(choices=[('Question1', 'Question 1'), ('Question 0', 'Question 0'), ('Question 2', 'Question 2'), ('Question 3', 'Question 3'), ('Other', 'Other')], max_length=200, null=True)),
                 ('Description', models.TextField(max_length=4000, null=True)),
                 ('Time', models.DateField(auto_now=True)),
                 ('status', models.IntegerField(choices=[(1, 'Solved'), (2, 'InProgress'), (3, 'Pending')], default=3)),

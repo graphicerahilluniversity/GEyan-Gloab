@@ -12,7 +12,7 @@ class Meta:
     app_label = 'GEyan'
 class Profile(models.Model):
     typeuser =(('student','student'),('grievance', 'grievance'))
-    COL=(('Vardhman Public School','Vardhman Public School'),('Lions Public School','Lions Public School')) #change college names
+    COL=(('Woodbridge School','Woodbridge School'),('Long View Public School','Long View Public School')) #change college names
     user =models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
     School=models.CharField(max_length=29,choices=COL,blank=False)
     phone_regex =RegexValidator(regex=r'^\d{10,10}$', message="Phone number must be entered in the format:Up to 10 digits allowed.")
@@ -39,7 +39,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Complaint(models.Model):
     STATUS =((1,'Solved'),(2, 'InProgress'),(3,'Pending'))
-    TYPE=(('Question 1',"Question 1"),('Question 0',"Question 0"),('Question 2',"Question 2"),('Question 3',"Question 3"),('Other',"Other"))
+    TYPE=(('Can you help me understand the different career paths available for someone with my interests?',"Can you help me understand the different career paths available for someone with my interests?"),('What skills are most important for success in my desired career, and how can I develop them while still in school?',"What skills are most important for success in my desired career, and how can I develop them while still in school?"),('Are there any extracurricular activities or volunteer opportunities you recommend that align with my career goals?',"Are there any extracurricular activities or volunteer opportunities you recommend that align with my career goals?"),('How important is networking in my future career, and what steps can I take now to build connections?',"How important is networking in my future career, and what steps can I take now to build connections?"),('Other',"Other"))
 
     Subject=models.CharField(max_length=200,blank=False,null=True)
     user=models.ForeignKey(User, on_delete=models.CASCADE,default=None)

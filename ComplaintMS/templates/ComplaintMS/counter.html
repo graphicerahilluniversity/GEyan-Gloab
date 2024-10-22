@@ -38,7 +38,7 @@ th{
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>All Question</title>
+  <title>All Feedback</title>
    
   <!-- Bootstrap core CSS -->
   <link href= "{% static "ComplaintMS/extra/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
@@ -63,9 +63,8 @@ th{
               <a href='/passwords/' class="list-group-item list-group-item-action">Password Reset</a>
 
               
-              <a href="/allcomplaints/" class="list-group-item list-group-item-action">All Question</a>
-              <a href="/solved/" class="list-group-item list-group-item-action">Solved Question</a>
-<a href="/solved/" class="list-group-item list-group-item-action">Certificate</a>
+              <a href="/allcomplaints/" class="list-group-item list-group-item-action">All Feedback</a>
+              <a href="/solved/" class="list-group-item list-group-item-action">Solved Feedback</a>
 
               {% endif %}
               
@@ -99,7 +98,7 @@ th{
 
     <div class="card" style="width: 19rem;">
   <div class="card-body">
-    <h5 class="card-title">Total Question:</h5>
+    <h5 class="card-title">Total Feedback:</h5>
     <br>
     
     <h1 class="card-subtitle mb-2 text-muted">{{ total }}</h1>
@@ -109,7 +108,7 @@ th{
 </div>
 <div class="card" style="width: 19rem;">
   <div class="card-body">
-    <h5 class="card-title">UnSolved Question:</h5>
+    <h5 class="card-title">UnSolved Feedback:</h5>
     <br>
     
     <h1 class="card-subtitle mb-2 text-muted">{{ unsolved }}</h1>
@@ -119,7 +118,7 @@ th{
 </div>
 <div class="card" style="width: 19rem;">
   <div class="card-body">
-    <h5 class="card-title">Solved Question:</h5>
+    <h5 class="card-title">Solved Feedback:</h5>
    <br>
     
     <h1 class="card-subtitle mb-2 text-muted">{{ solved}}</h1>
@@ -140,7 +139,7 @@ th{
             type: 'column'
         },
         title: {
-            text: 'Question Statistics'
+            text: 'Feedback Statistics'
         },
         
         xAxis: {
@@ -151,7 +150,7 @@ th{
           yAxis: {
         
            title: {
-        text: 'Number of Question'
+        text: 'Number of Feedback'
     },
            
           

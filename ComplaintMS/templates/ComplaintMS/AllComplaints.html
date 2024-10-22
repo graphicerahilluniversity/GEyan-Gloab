@@ -4,196 +4,220 @@
 {% block content %}
 
 <style>
-    td.color_1 { background-color: #4caf50; }
-    td.color_2 { background-color: yellow; }
-    td.color_3 { background-color: red; }
-    table {
-        counter-reset: tableCount;
-    }
-    .counterCell:before {
-        content: counter(tableCount);
-        counter-increment: tableCount;
-    }
-    .form-required { display: none; }
-    .requiredField { display: none; }
-    .alert { width: 400px; }
-    th { font-size: 16px; font-family: Arial; }
+
+
+td.color_1{ background-color: #4caf50; }
+td.color_2{ background-color: yellow; }
+td.color_3{ background-color: red; }
+table {
+    counter-reset: tableCount;
+}
+.counterCell:before {
+    content: counter(tableCount);
+    counter-increment: tableCount;
+}
+.form-required { display: none; }
+.requiredField
+{
+  display:none;
+}
+.alert
+{
+  width:400px;
+}
+th{
+   font-size:16px;
+   font-family:Arial;
+}
+
 </style>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>All Questions</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'ComplaintMS/extra/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'ComplaintMS/css/simple-sidebar.css' %}" rel="stylesheet">
+  <title>All Feedbacks </title>
+
+  <!-- Bootstrap core CSS -->
+  <link href= "{% static "ComplaintMS/extra/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static "ComplaintMS/css/simple-sidebar.css" %}" rel="stylesheet">
+
 </head>
 
-<div class="d-flex" id="wrapper">
+
+  <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading"><i>GEyan</i></div>
-        <div class="list-group list-group-flush">
-            {% if user.is_authenticated %}
-                <a href="" class="list-group-item list-group-item-action active">Welcome: {{ user.first_name }}</a>
-                <a href='/counter/' class="list-group-item list-group-item-action">Statistics</a>
-                <a href='/passwords/' class="list-group-item list-group-item-action">Password Reset</a>
-                <a href="/allcomplaints/" class="list-group-item list-group-item-action">All Question</a>
-                <a href="/solved/" class="list-group-item list-group-item-action">Solved Question</a>
-            <a href="/solved/" class="list-group-item list-group-item-action">Certificate</a>
+      <div class="sidebar-heading"> <i>GEyan</i> </div>
+      <div class="list-group list-group-flush">
+        {% if user.is_authenticated  %}
 
-            {% endif %}
-        </div>
+               <a href="" class="list-group-item list-group-item-action active"> Welcome : {{user.first_name}} </a>
+              <a href='/counter/' class="list-group-item list-group-item-action">Statistics</a>
+
+              <a href='/passwords/' class="list-group-item list-group-item-action">Password Reset</a>
+
+
+              <a href="/allcomplaints/" class="list-group-item list-group-item-action">All Feedback</a>
+              <a href="/solved/" class="list-group-item list-group-item-action">Solved Feedback</a>
+
+              {% endif %}
+
+      </div>
     </div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button class="btn btn-primary" id="menu-toggle">➡</button>
-            <form class="form-inline px-2" method="GET">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-                <select class="form-control px-2" id="sel1" name="drop">
-                    <option>ClassRoom</option>
-                    <option>Teacher</option>
-                    <option>Management</option>
-                    <option>College</option>
-                    <option>Other</option>
-                </select>
-                <button class="btn btn-outline-primary my-3 my-sm-1" type="submit">Filter</button>
-            </form>
-        </nav>
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">➡</button>
+       &nbsp;&nbsp;&nbsp;&nbsp;
+       <br>
+       <br>
+ <form class="form-inline px-2" method="GET" >
+
+    <input class="form-control " type="search" placeholder="Search" aria-label="Search" name="search" >
+    &nbsp;
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+
+   &nbsp;
+
+  <label for="sel1"></label>
+  <select class="form-control px-2" id="sel1" name="drop">
+
+    <option>ClassRoom</option>
+    <option>Teacher</option>
+    <option>Management</option>
+    <option>College</option>
+    <option>Other</option>
+  </select>
+&nbsp;
+    <button class="btn btn-outline-primary my-3 my-sm-1" type="submit">Filter</button>
+
+    </form>
+      </nav>
+      <br>
+          <ul>
+	{% for message in messages %}
+	   <div {% if message.tags %} class="alert alert-{{ message.tags }} "{% endif %}>
+	   <a class="close ml-2" data-dismiss="alert" href="#">&times;</a>
+      {{ message }}
+    </div>
+	{% endfor %}
+</ul>
+      <div class="container-fluid">
+      <div class="card-body bg-light">
+        <h1 class="mt-4 text-dark"><b>Questions Table </h1></form>
+        <h1 class="mt-4 text-dark"><b>Questions Table </h1></form>
         <br>
-        <ul>
-            {% for message in messages %}
-                <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
-                    <a class="close ml-2" data-dismiss="alert" href="#">&times;</a>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </ul>
-        <div class="container-fluid">
-            <div class="card-body bg-light">
-                <h1 class="mt-4 text-dark"><b>Questions Table</b></h1>
-                <br>
-                <div class="table-responsive">
-                    <table id="dtBasicExample" class="table table-striped table-hover table-bordered table-sm" cellspacing="5" width="100%">
-                        <thead>
-                            <tr class="bg-white">
-                                <th class="th-sm text-dark">ID</th>
-                                <th class="th-sm text-dark">User</th>
-                                <th class="th-sm text-dark">Subject</th>
-                                <th class="th-sm text-dark">Question Type</th>
-                                <th class="th-sm-12 text-dark">Issued</th>
-                                <th class="th-sm text-dark">Desc</th>
-                                <th class="th-sm text-dark">Status</th>
-                                <th class="th-sm text-dark">Actions</th>
-                                <th class="th-sm text-dark"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for data in c %}
-                                <tr>
-                                    <td class="counterCell bg-white"></td>
-                                    <td class="bg-white">cpm0{{ data.user.id }}</td>
-                                    <td class="bg-white">{{ data.Subject }}</td>
-                                    <td class="bg-white">{{ data.get_Type_of_complaint_display }}</td>
-                                    <td class="bg-white">{{ data.Time }}</td>
-                                    <td class="bg-white">
-                                        <form method="POST" action='/pdf_g/'>
-                                            {% csrf_token %}
-                                            <input type='hidden' name="cid" value="{{ data.id }}">
-                                            <input type="hidden" name="uid" value="{{ data.user_id }}">
-                                            <button type='submit' class="btn btn-info" name="pdf">Details</button>
-                                        </form>
-                                    </td>
-                                    <td class="color_{{ data.status }}"></td>
 
-                                    <td class="bg-white">
-                                        <button class="btn btn-success reply-button" data-id="{{ data.id }}" data-toggle="modal" data-target="#replyModal">Reply</button>
-                                    </td>
-                                </tr>
-                                <tr>
-    <td colspan="9">
-        <h5>Replies:</h5>
-        {% for reply in data.replies.all %}
-            <div class="reply">
-                <strong>{{ reply.user.username }}:</strong> {{ reply.reply_text }} <br>
-                <small>{{ reply.timestamp }}</small>
-            </div>
-        {% empty %}
-            <div>No replies yet.</div>
-        {% endfor %}
-    </td>
-</tr>
+    <div class="table-responsive">
+	<table id="dtBasicExample" class="table table-striped table-hover table-bordered table-sm" cellspacing="5" width="100%">
+  <thead>
+    <tr class="bg-white">
 
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+      <th class="th-sm text-dark">ID
+
+      </th>
+      <th class="th-sm  text-dark ">User
+
+      </th>
+	  <th class="th-sm  text-dark">Subject
+
+
+      <th class="th-sm  text-dark">Question  Type
+
+      </th>
+      <th class="th-sm-12  text-dark">Issued
+
+      </th>
+      <th class="th-sm  text-dark">Desc
+
+      </th>
+      <th class="th-sm  text-dark">Status
+
+      </th>
+
+      <th class="th-sm  text-dark">
+      Actions
+      </th>
+      <th class="th-sm  text-dark">
+
+      </th>
+    </tr>
+  </thead>
+
+{% for data in c %}
+  <tbody>
+    <tr>
+      <td class="counterCell bg-white"> </td>
+
+      <td class="bg-white">cpm0{{ data.user.id }}</td>
+
+	    <td class="bg-white">{{data.Subject}}</td>
+     <!--<td class="bg-white">{{ data.Branch }}</td>-->
+      <td class="bg-white">{{ data.get_Type_of_complaint_display }}</td>
+      <td class="bg-white">{{ data.Time }}</td>
+      <td class="bg-white">
+
+      <form method="POST" action='/pdf_g/'>
+      {% csrf_token %}
+      <input type='hidden' name="cid" value={{data.id}}>
+      <input type="hidden" name="uid" value={{ data.user_id}}>
+      <button type='submit' class="btn btn-info" name="pdf">Details</button>
+      </form>
+      </td>
+
+
+      <td class="color_{{ data.status }} "></td>
+
+      <form method="POST">
+      {% csrf_token %}
+      <td class="bg-white" class="">{{ forms|crispy }}</td>
+      <td class="bg-white">
+      <input type='hidden' name="cid2" value={{data.id}}>
+      <input type="hidden" name="uid" value={{ data.user_id}}>
+      <button type='submit' class="btn btn-success">Submit</button>
+      </form>
+      </td>
+
+
+
+    </tr>
+
+  </tbody>
+  {% endfor %}
+
+
+
+      </ul>
+  <tfoot>
+
+</table>
+</div>
+      </div>
     </div>
     <!-- /#page-content-wrapper -->
-</div>
-<!-- /#wrapper -->
+   </div>
+  </div>
+  <!-- /#wrapper -->
 
-<!-- Modal for reply -->
-<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="replyForm" method="POST" action="{% url 'reply_to_complaint' 0 %}">
-                {% csrf_token %}
-                <div class="modal-header">
-                    <h5 class="modal-title" id="replyModalLabel">Reply to Question</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="replyText">Your Reply</label>
-                        <textarea class="form-control" id="replyText" name="reply_text" rows="3" required></textarea>
-                    </div>
-                    <input type="hidden" name="cid" id="complaintIdInput" value="">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit Reply</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+  <!-- Bootstrap core JavaScript -->
 
-<!-- Bootstrap core JavaScript -->
-<script src="{% static 'ComplaintMS/extra/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'ComplaintMS/extra/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-<!-- Menu Toggle Script -->
-<script>
+  <!-- Menu Toggle Script -->
+  <script>
     $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
     });
+  </script>
 
-    $(document).ready(function() {
-        // When the reply button is clicked, set the Question ID in the modal
-        $('.reply-button').click(function() {
-            var complaintId = $(this).data('id');
-            $('#complaintIdInput').val(complaintId);
-            // Correct URL replacement
-            var formAction = "{% url 'reply_to_complaint' 0 %}".replace('0', complaintId);
-            $('#replyForm').attr('action', formAction);
-        });
-    });
-</script>
 
 {% endblock content %}

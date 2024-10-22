@@ -78,7 +78,7 @@
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
 				  <span class="navbar-toggler-icon"></span>
 				</button>
-
+			  
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				  <ul class="navbar-nav mr-auto">
 					<li class="nav-item">
@@ -87,8 +87,8 @@
 					<li class="nav-item">
 					  <a class="nav-link" href="/aboutus/">About</a>
 					</li>
-
-
+					
+				
 				  </ul><!--Ayush Arya -->
 				  <form class="form-inline my-2 my-lg-0">
 					<ul class="nav navbar-nav navbar-right">
@@ -96,14 +96,14 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/dashboard/"><span class="fi-account-login"></span>Profile</a>
 						  </li>
-						  <li class="nav-item">
+						  <li class="nav-item"> 
 							<a class="nav-link" href="/logout/">Logout</a>
 						  </li>
-						{% elif user.is_authenticated and user.profile.type_user == 'grievance' %}
+						{% elif user.is_authenticated and user.profile.type_user == 'grievance' %}	
 						<li class="nav-item">
 							<a class="nav-link" href="/allcomplaints/"><span class="fi-account-login"></span>Profile</a>
 						  </li>
-						  <li class="nav-item">
+						  <li class="nav-item"> 
 							<a class="nav-link" href="/logout/">Logout</a>
 						  </li><!--Ayush Arya -->
 						{% else %}
@@ -118,7 +118,7 @@
 				  </form>
 				</div>
 			  </nav>
-
+			  
 {% block content %}
 
 {% endblock content %}

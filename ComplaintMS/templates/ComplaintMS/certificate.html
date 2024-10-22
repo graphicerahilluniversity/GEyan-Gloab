@@ -1,0 +1,181 @@
+{% extends "ComplaintMS/index.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<style>
+    td.color_1 { background-color: #4caf50; }
+    td.color_2 { background-color: yellow; }
+    td.color_3 { background-color: red; }
+    table {
+        counter-reset: tableCount;
+    }
+    .counterCell:before {
+        content: counter(tableCount);
+        counter-increment: tableCount;
+    }
+    .form-required { display: none; }
+    .requiredField { display: none; }
+    .alert { width: 400px; }
+    th { font-size: 16px; font-family: Arial; }
+</style>
+<style>
+         body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Container for certificate */
+    .certificate-container {
+        position: relative;
+        width: 100%; /* Make it responsive */
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Canvas styling */
+    #certificate-canvas {
+        width: 100%;
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .download-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .download-btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Responsive styles for mobile and desktop */
+    @media only screen and (max-width: 600px) {
+        /* For mobile screens */
+        .certificate-container {
+            max-width: 100%;
+        }
+
+        .download-btn {
+            width: 100%;
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
+    </style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>All Questions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'ComplaintMS/extra/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'ComplaintMS/css/simple-sidebar.css' %}" rel="stylesheet">
+</head>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading"><i>GEyan</i></div>
+        <div class="list-group list-group-flush">
+            {% if user.is_authenticated %}
+               <a href="" class="list-group-item list-group-item-action active"> Welcome : {{user.username}} </a>
+              <a href='/dashboard/' class="list-group-item list-group-item-action">Profile</a>
+              <a href='/password/' class="list-group-item list-group-item-action">Password Reset</a>
+
+              <a href="/complaints/" class="list-group-item list-group-item-action">Add Feedback </a>
+               <a href="/list/" class="list-group-item list-group-item-action">UnSolved Feedback</a>
+              <a href="/slist/" class="list-group-item list-group-item-action">Solved Feedback</a>
+          <a href="/certificate/" class="list-group-item list-group-item-action">Certificate</a>
+
+
+            {% endif %}
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+<!-- Page Content -->
+    <div class="certificate-container">
+        <!-- Certificate Canvas -->
+        <canvas id="certificate-canvas"></canvas>
+        <button class="download-btn" onclick="downloadCertificate()">Download Certificate</button>
+    </div>
+
+    <!-- Download Button -->
+
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<!-- Modal for reply -->
+    <script>
+    const userName = "{{ user.first_name }}"; // Get the user name from the template
+
+    // Load the certificate image into the canvas
+    const canvas = document.getElementById('certificate-canvas');
+    const ctx = canvas.getContext('2d');
+    const certificateImg = new Image();
+
+    // Set canvas size (adjust as per your certificate image size)
+    certificateImg.onload = function() {
+        canvas.width = certificateImg.width;
+        canvas.height = certificateImg.height;
+        ctx.drawImage(certificateImg, 0, 0); // Draw certificate image onto canvas
+
+        // Add user name at the specified location
+        ctx.font = "24px Arial"; // Font style and size
+        ctx.fillStyle = "black"; // Font color
+        ctx.textAlign = "center";
+        ctx.fillText(userName, canvas.width / 2, canvas.height * 0.4); // Adjust position as needed
+    };
+
+    // Load the image
+    certificateImg.src = "{% static 'ComplaintMS/img/certifictae.png' %}";
+
+    // Function to download the certificate
+    function downloadCertificate() {
+        // Convert the canvas to a data URL and trigger download
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png'); // Convert canvas to PNG
+        link.download = 'certificate_' + userName + '.png'; // Download file name
+        link.click();
+    }
+</script>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'ComplaintMS/extra/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'ComplaintMS/extra/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    $(document).ready(function() {
+        // When the reply button is clicked, set the Question ID in the modal
+        $('.reply-button').click(function() {
+            var complaintId = $(this).data('id');
+            $('#complaintIdInput').val(complaintId);
+            // Correct URL replacement
+            var formAction = "{% url 'reply_to_complaint' 0 %}".replace('0', complaintId);
+            $('#replyForm').attr('action', formAction);
+        });
+    });
+</script>
+
+{% endblock content %}

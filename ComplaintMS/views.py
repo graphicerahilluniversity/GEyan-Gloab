@@ -35,7 +35,8 @@ def login(request):
 
 def signin(request):
     return render(request,"ComplaintMS/signin.html")
-
+def certificate(request):
+    return render(request,"ComplaintMS/certificate.html")
 #get the count of all the submitted complaints,solved,unsolved.
 def counter(request):
         total=Complaint.objects.all().count()
@@ -154,7 +155,7 @@ def complaints(request):
         #        send_mail('Hi Complaint has been Received', 'Thank you for letting us know of your concern, Have a Cookie while we explore into this matter.  Dont Reply to this mail', 'testerpython13@gmail.com', [mail],fail_silently=False)
                instance.save()
                
-               messages.add_message(request,messages.SUCCESS, f'Your complaint has been registered!')
+               messages.add_message(request,messages.SUCCESS, f'Your Question has been registered!')
                return render(request,'ComplaintMS/comptotal.html',)
     else:
         

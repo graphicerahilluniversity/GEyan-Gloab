@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import reply_to_complaint,all_complaints_view
+from .views import reply_to_complaint,all_complaints_view,certificate
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -23,6 +23,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('complaints/', views.complaints, name='complaints'),
     path('allcomplaints/', views.allcomplaints, name='allcomplaints'),
+    path('certificate/', views.certificate, name='certificate'),
 
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='ComplaintMS/password_reset.html'), name='password_reset'),
     path('password-reset-done/', auth_views.PasswordResetDoneView.as_view(template_name='ComplaintMS/password_reset_done.html'), name='password_reset_done'),
