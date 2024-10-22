@@ -47,6 +47,7 @@
                 <a href="/allcomplaints/" class="list-group-item list-group-item-action">All Question</a>
                 <a href="/solved/" class="list-group-item list-group-item-action">Solved Question</a>
             <a href="/solved/" class="list-group-item list-group-item-action">Certificate</a>
+
             {% endif %}
         </div>
     </div>
@@ -151,7 +152,7 @@
             <form id="replyForm" method="POST" action="{% url 'reply_to_complaint' 0 %}">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="replyModalLabel">Reply to Complaint</h5>
+                    <h5 class="modal-title" id="replyModalLabel">Reply to Question</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -184,7 +185,7 @@
     });
 
     $(document).ready(function() {
-        // When the reply button is clicked, set the complaint ID in the modal
+        // When the reply button is clicked, set the Question ID in the modal
         $('.reply-button').click(function() {
             var complaintId = $(this).data('id');
             $('#complaintIdInput').val(complaintId);
