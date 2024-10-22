@@ -1,0 +1,50 @@
+{% extends "ComplaintMS/index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+  body {
+    background: #ffffff;
+  }
+
+  .jbg {
+    background: #ffffff;
+  }
+</style>
+
+<div class="jumbotron text-center jbg">
+  <h1 style="color: rgb(110, 110, 110)">GEyan</h1>
+  <p>Powered By Graphic Era Hill University</p>
+  <p style="color: rgb(99, 99, 99)">Choose your Preferred Login Below</p>
+</div>
+
+<center>
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-sm-6 col-md-4 mb-4">
+        <div class="card mx-auto">
+          <div class="col text-center">
+            <br>
+            <img src="{% static 'ComplaintMS/img/seclgn.png' %}" class="img-fluid" alt="Student/Staff Login">
+            <p></p>
+            <a href="/signin/"><button type="button" class="btn btn-primary btn-block">Student/Staff Login</button></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 mb-4">
+        <div class="card mx-auto">
+          <div class="col text-center">
+            <br>
+            <img src="{% static 'ComplaintMS/img/adminn.png' %}" class="img-fluid" alt="Admin Login">
+            <p></p>
+            <a href="/admin/" class="btn btn-danger btn-block">Admin Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</center>
+
+{% endblock content %}
