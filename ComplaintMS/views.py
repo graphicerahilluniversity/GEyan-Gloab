@@ -9,6 +9,9 @@ from django.urls import reverse
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 import reportlab
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 from .models import Reply  # Ensure this is present
 
 from django.db.models import Count, Q
@@ -38,6 +41,26 @@ def signin(request):
 def certificate(request):
     return render(request,"ComplaintMS/certificate.html")
 #get the count of all the submitted complaints,solved,unsolved.
+
+from django.http import JsonResponse
+from .models import User  # Adjust based on your actual user model
+
+import json
+def check_user_registration(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            mobile_number = data.get('mobile_number')
+
+            if User.objects.filter(mobile_number=mobile_number).exists():
+                return JsonResponse({'is_registered': True})
+            else:
+                return JsonResponse({'is_registered': False})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
 def counter(request):
         total=Complaint.objects.all().count()
         unsolved=Complaint.objects.all().exclude(status='1').count()
@@ -85,13 +108,31 @@ def register(request):
 
     context={'form': form,'profile_form':profile_form }
     return render(request, 'ComplaintMS/register.html',context )
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
-#login based on user.
+def login_user_via_otp(request, mobile_number):
+    try:
+        user = User.objects.get(profile__mobile_number=mobile_number)
+        # Authenticate the user (since OTP is being used, password is bypassed)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user)  # Log the user in
+        return redirect('/dashboard/')
+    except User.DoesNotExist:
+        return redirect('/signin/')  # Redirect to sign-in if user not found
+
 def login_redirect(request):
-    if request.user.profile.type_user=='student':
-        return HttpResponseRedirect('/dashboard/')
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Check the user's profile type and redirect accordingly
+        if request.user.profile.type_user == 'student':
+            return HttpResponseRedirect('/dashboard/')
+        else:
+            return HttpResponseRedirect('/counter/')
     else:
-        return HttpResponseRedirect('/counter/')
+        # If the user is not authenticated, redirect to the login page
+        return HttpResponseRedirect('/login/')
 
 @login_required
 def dashboard(request):

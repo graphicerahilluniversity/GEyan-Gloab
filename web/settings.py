@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '$!@%0u0@m&x85($hsavn*qrcg54)=4a+f8!n#sgs1ko-8q+&mt'
-
+FAST2SMS_API_KEY = '791aHfEgF6fXxj46ZNNposGDV24WWZN3NRIq9tZdvXytz8z79KuUUpKb2Epw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

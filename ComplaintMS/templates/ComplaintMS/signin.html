@@ -1,5 +1,4 @@
 {% extends "ComplaintMS/index.html" %}
-
 {% load crispy_forms_tags %}
 {% load static %}
 
@@ -23,30 +22,125 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <div class="content-section">
-                <form method="POST">
+                <form id="otpForm" onsubmit="return false;">
                     {% csrf_token %}
-                    {% if user.is_authenticated %}
-                    <h3 class="text-center">You are already logged in. First logout to switch accounts?</h3>
-                    {% else %}
                     <fieldset class="form-group">
-                        <legend class="border-bottom mb-4 text-center">Log In as Student/Staff Member</legend>
-                        {{ form|crispy }}
+                        <legend class="border-bottom mb-4 text-center">Log In Using Mobile Number</legend>
+                        <div class="form-group">
+                            <label for="mobileNumber">Mobile Number:</label>
+                            <input type="tel" class="form-control" id="mobileNumber" name="mobile_number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block" type="button" onclick="sendOTP()">Send OTP</button>
+                        </div>
                     </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-success btn-block" type="submit">Login</button>
+
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#otpModal">Verify OTP</button>
                     </div>
-                    {% endif %}
                 </form>
                 <div class="border-top pt-3 text-center">
                     <small>
                         Need an Account? <a class="ml-2" href="{% url 'register' %}">Register Now</a>
-                        <div class="text-muted">
-                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
-                        </div>
                     </small>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal for OTP verification -->
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="otpModalLabel">Enter OTP</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" class="form-control" id="otp" name="otp" pattern="[0-9]*" inputmode="numeric" maxlength="6" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="verifyOTP()">Verify OTP</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS (required for modal functionality) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    let generatedOtp; // Store the generated OTP
+    let mobileNumber; // Store the mobile number
+
+    async function sendOTP() {
+        mobileNumber = document.getElementById('mobileNumber').value;
+
+        if (!mobileNumber.match(/^[0-9]{10}$/)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            return;
+        }
+
+        try {
+            const response = await fetch('https://recomend-t26j.vercel.app/send_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobile_number: mobileNumber }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                alert('OTP sent successfully!');
+            } else {
+                alert(result.message || 'Failed to send OTP. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    }
+
+    async function verifyOTP() {
+        const userOtp = document.getElementById('otp').value;
+
+        try {
+            const response = await fetch('https://recomend-t26j.vercel.app/verify_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    mobile_number: mobileNumber,
+                    otp: userOtp
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                alert('OTP verified successfully!');
+                $('#otpModal').modal('hide');
+                window.location.href = '/dashboard';
+            } else {
+                alert(result.message || 'Invalid OTP. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred during verification. Please try again later.');
+        }
+    }
+</script>
+
 {% endblock content %}
